@@ -5,13 +5,18 @@ N108 is a full real-time operating system written for the TM4C123 chip, with sup
 This operating system is designed for variations of the ARM TM4C123 chip. However, most of the hardware abstraction layer is stored under OS_Critical/HardwareManager. This module can be very easily swapped for drivers that are supported on other devices. The operating system uses the following hardware tools for its core operation:
 
 1. UART:
-  * UART0 is used to interface with an external computer. The operating system features a Unix-like shell that accepts certain commands from the external computer through this port. Runs UART0 w/ interrupt-based data acquisition, and 115200 bps baud.
+
+   UART0 is used to interface with an external computer. The operating system features a Unix-like shell that accepts certain commands from the external computer through this port. Runs UART0 w/ interrupt-based data acquisition, and 115200 bps baud.
+
 2. PLL:
-  * Internal oscillator. Sets for 80 MHz clock.
+
+   Internal oscillator. Sets for 80 MHz clock.
+
 3. GPIO:
-  * Port A: PA4, PA2, PA5, PA3, PA7 used for LCD.
-  * Port F: Entire usable port used for heartbeat purposes.
-  * Port D: PD7 used for LCD.
+   Ports A, F, D are used for various purposes.
+ * Port A: PA4, PA2, PA5, PA3, PA7 used for LCD.
+ * Port F: Entire usable port used for heartbeat purposes.
+ * Port D: PD7 used for LCD.
 
 4. SSI:
   * SSI0: Used to interface with the LCD. (See OS_Critical/HardwareManager/LCDDriver/)
