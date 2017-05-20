@@ -1,9 +1,12 @@
 # N108
 
 
-N108 is a full real-time operating system written for the TM4C123 chip, with support for external LCDs. During development, a ST7735 TFT LCD was used for debugging and the driver for that LCD is included.
+N108 is a full real-time operating system written for the TM4C123 chip, with support for external LCDs. The kernel of the OS was written from scratch. The OS relies on certain external hardware to function properly, but can be easily modified to be self-sufficient. For a list of external hardware resources needed, please see below.
 
-## Hardware Requirements
+## External Hardware Used
+The OS, out of the box, relies on three pieces of external hardware to function normally: an external chip to interface the serial driver with and to issue commands (such as a personal computer), an LCD, and a SD card reader. The LCD is used as an output source (along with the serial port), and the SD card reader is used by the file system and process loader to load and execute external processes. For a list of serial interfacing commands, please look below. I personally used a ST7735 as it allows for SSI-compatible LCD and SD interfacing; the schematic for that is included below as well.
+
+## SoC Hardware Requirements
 This operating system is designed for variations of the ARM TM4C123 chip. However, most of the hardware abstraction layer is stored under OS_Critical/HardwareManager. This module can be very easily swapped for drivers that are supported on other devices. The operating system uses the following hardware tools for its core operation:
 
 1. UART:
