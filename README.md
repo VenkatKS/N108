@@ -29,9 +29,24 @@ The code is designed to be used with Texas Instruments Code Composer Studio. Jus
 ### Flashing The Board
 This operating system will flash out-of-the-box onto a TI TM4C123 Launchpad.
 ### Hardware Schematics
-The OS uses an external ST7735 LCD for two things: as a LCD and as an external SD card reader for its filesystem. Here are the schematics for how to hook up this to your launchpad:
+The OS uses an external ST7735 LCD for two things: as a LCD and as an external SD card reader for its filesystem. My OS was also used for other purposes -- such as interfacing with sensors -- so please ignore any extraneous connections in the second image. What's important is getting the ST7735 connected.
+
+Here are the schematics for how to hook up this to your launchpad:
 ![alt text](https://github.com/VenkatKS/N108/raw/master/Schematics/st7735_in.png "Connections going into the ST7735")
 ![Launchpad_Out](https://github.com/VenkatKS/N108/raw/master/Schematics/launchpad_out.png "Connections going out of the Launchpad")
-My OS was also used for other purposes -- such as interfacing with sensors -- so please ignore any extraneous connections in the second image. What's important is getting the ST7735 connected.
+
 ## Interfacing
-The primary interfacing between the OS (running on the board) is done through the on-board serial UART port.
+The primary interfacing between the OS (running on the board) is done through the on-board serial UART port. You can use any terminal program on your computer -- such as CoolEdge on Mac or Putty on Windows -- to send these commands over to the OS interpreter once boot-up is complete.
+
+Out of the box, the operating system supports the following commands, as seen in Shell/shell.c:
+
+```
+char* 			commandFormat[]		=
+                      {
+                        "help",
+                        "runproc <processname>"
+                      }
+```
+
+Very barebones, but the idea here is to add your own commands and interface with the rest of the operating system. **Help** basically prints out this same list, while **runproc** loads an external process (stored in the SD card inserted into the ST7735 breakout board) and starts executing that program. During idle, only the interpreter runs.
+
