@@ -3,10 +3,23 @@
 
 N108 is a full real-time operating system written for the TM4C123 chip, with support for external LCDs. The kernel of the OS was written from scratch. The OS relies on certain external hardware to function properly, but can be easily modified to be self-sufficient. For a list of external hardware resources needed, please see below.
 
-## External Hardware Used
+## Using The Operating System
+### Using The OS
+The OS is interacted with through a Unix-like Shell. The Shell uses serial communication through the board's UART0 to send commands that you type to the N108 operating system. To interface with the OS, connect your TM4C123 launchpad to your computer through USB and fire-up a serial interface -- such as CoolTerm for Mac or PuTTY for Windows -- and connect to the serial port you're using. From there, you should be able to see the N108 shell's prompt. You can issue commands from this interface.
+
+### Launching Processes
+N108 has full process-loading support, so you are able to independently compile and launch your own TM4C123 programs using this OS, without having to re-compile the OS along with your program. To use this feature, compile your independent program using Keil uVision (or any other embedded ARM compiler) and drop the ELF file into a FAT32 formatted SD card. Hook up the SD card to your TM4C123, and run the OS. From the OS's shell, type in 'launch <name>', where '<name>' is the name of the ARM ELF file you have in the SD card. The OS should launch the program and start executing.
+
+### System Calls
+The OS supports a single system call: OS_DisplayMessage. The call allows you to print strings to the ST7735 LCD attached to the board. It takes in 4 parameters to specify where on the screen you want the board to display the text. More calls can be easily added by modifying the static const ELFSymbol_t SymbolTable[] array found under OS_Critical/OS.c, and adding a pointer to your new function.
+
+
+I'm thinking about adding more system calls to this area to allow for easier accesses of TM4C SoC resources (instead of just the external resources). TBD.
+
+## Hardware Requirements
 The OS, out of the box, relies on three pieces of external hardware to function normally: an external chip to interface the serial driver with and to issue commands (such as a personal computer), an LCD, and a SD card reader. The LCD is used as an output source (along with the serial port), and the SD card reader is used by the file system and process loader to load and execute external processes. For a list of serial interfacing commands, please look below. I personally used a ST7735 as it allows for SSI-compatible LCD and SD interfacing; the schematic for that is included below as well.
 
-## SoC Hardware Requirements
+### SoC Hardware Requirements
 This operating system is designed for variations of the ARM TM4C123 chip. However, most of the hardware abstraction layer is stored under OS_Critical/HardwareManager. This module can be very easily swapped for drivers that are supported on other devices. The operating system uses the following hardware tools for its core operation:
 
 1. UART:
